@@ -13,7 +13,7 @@
 
 ### Table of contents
 
-1. [Left-Leaning Red-Black Tree](#Leaf-Leaning-Red-Black-Tree)
+1. [Left-Leaning Red-Black Tree](#Left-Leaning-Red-Black-Tree)
 2. [Types](#Types)
 3. [Testing and Submission](#testing-and-submission)
 
