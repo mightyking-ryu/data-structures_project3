@@ -337,13 +337,28 @@ RBNode<T>* RBNode<T>::remove_min(std::unique_ptr<RBNode<T>>& n) {
 template<typename T>
 RBNode<T>* RBNode<T>::move_red_right(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return n.get();// TODO
+    n->flip_color();
+
+    if(is_red(n->left->left)) {
+        n.reset(rotate_right(n));
+        n->flip_color();
+    }
+
+    return n.release();
 }
 
 template<typename T>
 RBNode<T>* RBNode<T>::move_red_left(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return n.get();// TODO
+    n->flip_color();
+
+    if(is_red(n->right->left)) {
+        n->right.reset(rotate_right(n->right));
+        n.reset(rotate_left(n));
+        n->flip_color();
+    }
+
+    return n.release();
 }
 
 
