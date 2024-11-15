@@ -329,8 +329,11 @@ RBNode<T>* RBNode<T>::fix_up(std::unique_ptr<RBNode<T>>& n) {
 template<typename T>
 RBNode<T>* RBNode<T>::remove(std::unique_ptr<RBNode<T>>& n, const T& t) {
     // TODO
+    if (n == nullptr) {
+        return nullptr;
+    }
     if(t < n->key) {
-        if(!is_red(n->left) && !is_red(n->left->left)) {
+        if(n->left != nullptr && !is_red(n->left) && !is_red(n->left->left)) {
             n.reset(move_red_left(n));
         }
         n->left.reset(remove(n->left, t));
@@ -341,7 +344,7 @@ RBNode<T>* RBNode<T>::remove(std::unique_ptr<RBNode<T>>& n, const T& t) {
         if(t == n->key && n->right == nullptr) {
             return nullptr;
         }
-        if(!is_red(n->right) && !is_red(n->right->left)) {
+        if(n->right != nullptr && !is_red(n->right) && !is_red(n->right->left)) {
             n.reset(move_red_right(n));
         }
         if(t == n->key) {
@@ -366,7 +369,7 @@ RBNode<T>* RBNode<T>::remove_max(std::unique_ptr<RBNode<T>>& n) {
         return nullptr;
     }
 
-    if(!is_red(n->right) && !is_red(n->right->left)) {
+    if(n->right != nullptr && !is_red(n->right) && !is_red(n->right->left)) {
         n.reset(move_red_right(n));
     }
 
@@ -383,7 +386,7 @@ RBNode<T>* RBNode<T>::remove_min(std::unique_ptr<RBNode<T>>& n) {
         return nullptr;
     }
 
-    if(!is_red(n->left) && !is_red(n->left->left)) {
+    if(n->left != nullptr && !is_red(n->left) && !is_red(n->left->left)) {
         n.reset(move_red_left(n));
     }
 
