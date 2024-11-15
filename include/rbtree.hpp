@@ -329,7 +329,29 @@ RBNode<T>* RBNode<T>::fix_up(std::unique_ptr<RBNode<T>>& n) {
 template<typename T>
 RBNode<T>* RBNode<T>::remove(std::unique_ptr<RBNode<T>>& n, const T& t) {
     // TODO
-    return n.get();// TODO
+    if(t < n->key) {
+        if(!is_red(n->left) && !is_red(n->left->left)) {
+            n.reset(move_red_left(n));
+        }
+        n->left.reset(remove(n->left, t));
+    } else {
+        if(is_red(n->left)) {
+            n.reset(rotate_right(n));
+        }
+        if(t == n->key && n->right == nullptr) {
+            return nullptr;
+        }
+        if(!is_red(n->right) && !is_red(n->right->left)) {
+            n.reset(move_red_right(n));
+        }
+        if(t == n->key) {
+            n->key = n->right->leftmost_key();
+            n->right.reset(remove_min(n->right));
+        } else {
+            n->right.reset(remove(n->right, t));
+        }
+    }
+    return fix_up(n);
 }
 
 
@@ -375,7 +397,7 @@ RBNode<T>* RBNode<T>::move_red_right(std::unique_ptr<RBNode<T>>& n) {
     // TODO
     n->flip_color();
 
-    if(is_red(n->left->left)) {
+    if(n->left != nullptr && is_red(n->left->left)) {
         n.reset(rotate_right(n));
         n->flip_color();
     }
@@ -388,7 +410,7 @@ RBNode<T>* RBNode<T>::move_red_left(std::unique_ptr<RBNode<T>>& n) {
     // TODO
     n->flip_color();
 
-    if(is_red(n->right->left)) {
+    if(n->right != nullptr && is_red(n->right->left)) {
         n->right.reset(rotate_right(n->right));
         n.reset(rotate_left(n));
         n->flip_color();
