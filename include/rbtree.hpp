@@ -216,13 +216,27 @@ bool RBNode<T>::is_red(const std::unique_ptr<RBNode<T>>& n) {
 template<typename T>
 RBNode<T>* RBNode<T>::rotate_right(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return // TODO
+    std::unique_ptr<RBNode<T>> temp_node = std::move(n);
+    n = std::move(temp_node->left);
+    temp_node->left = std::move(n->right);
+    n->right = std::move(temp_node);
+    color_t temp_color = n->color;
+    n->color = n->right->color;
+    n->right->color = temp_color;
+    return n;
 }
 
 template<typename T>
 RBNode<T>* RBNode<T>::rotate_left(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return // TODO
+    std::unique_ptr<RBNode<T>> temp_node = std::move(n);
+    n = std::move(temp_node->right);
+    temp_node->right = std::move(n->left);
+    n->left = std::move(temp_node);
+    color_t temp_color = n->color;
+    n->color = n->left->color;
+    n->left->color = temp_color;
+    return n;
 }
 
 template<typename T>
