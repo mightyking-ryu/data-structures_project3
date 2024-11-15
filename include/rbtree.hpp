@@ -343,7 +343,17 @@ RBNode<T>* RBNode<T>::remove_max(std::unique_ptr<RBNode<T>>& n) {
 template<typename T>
 RBNode<T>* RBNode<T>::remove_min(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return n.get();// TODO
+    if(n->left== nullptr) {
+        return nullptr;
+    }
+
+    if(!is_red(n->left) && !is_red(n->left->left)) {
+        n.reset(move_red_left(n));
+    }
+
+    n->left.reset(remove_min(n->left));
+
+    return fix_up(n);
 }
 
 template<typename T>
