@@ -242,6 +242,25 @@ RBNode<T>* RBNode<T>::rotate_left(std::unique_ptr<RBNode<T>>& n) {
 template<typename T>
 void RBNode<T>::flip_color() {
     // TODO
+    if(this->color == RED) {
+        this->color = BLK;
+    } else {
+        this->color = RED;
+    }
+    if(this->left != nullptr) {
+        if(this->left->color == RED) {
+            this->left->color = BLK;
+        } else {
+            this->left->color = RED;
+        }
+    }
+    if(this->right != nullptr) {
+        if(this->right->color == RED) {
+            this->right->color = BLK;
+        } else {
+            this->right->color = RED;
+        }
+    }
 }
 
 template<typename T>
