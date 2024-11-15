@@ -336,7 +336,21 @@ RBNode<T>* RBNode<T>::remove(std::unique_ptr<RBNode<T>>& n, const T& t) {
 template<typename T>
 RBNode<T>* RBNode<T>::remove_max(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return n.get();// TODO
+    if(is_red(n->left)) {
+        n.reset(rotate_right(n));
+    }
+
+    if(n->right == nullptr) {
+        return nullptr;
+    }
+
+    if(!is_red(n->right) && !is_red(n->right->left)) {
+        n.reset(move_red_right(n));
+    }
+
+    n->right.reset(remove_max(n->right));
+
+    return fix_up(n);
 }
 
 
