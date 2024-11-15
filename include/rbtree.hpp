@@ -216,27 +216,27 @@ bool RBNode<T>::is_red(const std::unique_ptr<RBNode<T>>& n) {
 template<typename T>
 RBNode<T>* RBNode<T>::rotate_right(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    std::unique_ptr<RBNode<T>> temp_node = std::move(n);
-    n = std::move(temp_node->left);
-    temp_node->left = std::move(n->right);
-    n->right = std::move(temp_node);
-    color_t temp_color = n->color;
-    n->color = n->right->color;
-    n->right->color = temp_color;
-    return n.get();
+    std::unique_ptr<RBNode<T>> temp_node = std::move(n->left);
+    n->left = std::move(temp_node->right);
+    temp_node->right = std::move(n);
+
+    temp_node->color = temp_node->right->color;
+    temp_node->right->color = RED;
+
+    return temp_node.release();
 }
 
 template<typename T>
 RBNode<T>* RBNode<T>::rotate_left(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    std::unique_ptr<RBNode<T>> temp_node = std::move(n);
-    n = std::move(temp_node->right);
-    temp_node->right = std::move(n->left);
-    n->left = std::move(temp_node);
-    color_t temp_color = n->color;
-    n->color = n->left->color;
-    n->left->color = temp_color;
-    return n.get();
+    std::unique_ptr<RBNode<T>> temp_node = std::move(n->right);
+    n->right = std::move(temp_node->left);
+    temp_node->left = std::move(n);
+
+    temp_node->color = temp_node->left->color;
+    temp_node->left->color = RED;
+
+    return temp_node.release();
 }
 
 template<typename T>
@@ -267,8 +267,7 @@ template<typename T>
 RBNode<T>* RBNode<T>::insert(std::unique_ptr<RBNode<T>>& n, const T& t) {
     // TODO
     if(n == nullptr) {
-        n = std::make_unique<RBNode<T>>(t);
-        return n.get();
+        return new RBNode<T>(t);
     }
 
     if(is_red(n->left) && is_red(n->right)) {
@@ -276,22 +275,22 @@ RBNode<T>* RBNode<T>::insert(std::unique_ptr<RBNode<T>>& n, const T& t) {
     }
 
     if(t < n->key) {
-        insert(n->left, t);
+        n->left.reset(insert(n->left, t));
     } else if(t > n->key) {
-        insert(n->right, t);
+        n->right.reset(insert(n->right, t));
     }
 
     if(is_red(n->right)) {
-        rotate_left(n);
+        n.reset(rotate_left(n));
     }
 
     if(is_red(n->left)) {
         if(is_red(n->left->left)) {
-            rotate_right(n);
+            n.reset(rotate_right(n));
         }
     }
 
-    return n.get();
+    return n.release();
 }
 
 template<typename T>
@@ -312,39 +311,39 @@ std::pair<RBNode<T>*, Path> RBNode<T>::search(const T& t, Path sp) {
 template<typename T>
 RBNode<T>* RBNode<T>::fix_up(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return // TODO
+    return n.get();// TODO
 }
 
 template<typename T>
 RBNode<T>* RBNode<T>::remove(std::unique_ptr<RBNode<T>>& n, const T& t) {
     // TODO
-    return // TODO
+    return n.get();// TODO
 }
 
 
 template<typename T>
 RBNode<T>* RBNode<T>::remove_max(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return // TODO
+    return n.get();// TODO
 }
 
 
 template<typename T>
 RBNode<T>* RBNode<T>::remove_min(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return // TODO
+    return n.get();// TODO
 }
 
 template<typename T>
 RBNode<T>* RBNode<T>::move_red_right(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return // TODO
+    return n.get();// TODO
 }
 
 template<typename T>
 RBNode<T>* RBNode<T>::move_red_left(std::unique_ptr<RBNode<T>>& n) {
     // TODO
-    return // TODO
+    return n.get();// TODO
 }
 
 
