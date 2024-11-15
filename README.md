@@ -1,6 +1,6 @@
-# HW#3: Leaf-Leaning Red-Black Tree
+# HW#3: Left-Leaning Red-Black Tree
 
-* **Due data: 11:59pm, 2024/11/13**
+* **Due data: 11:59pm, 2024/11/15**
 * TA: Sieun Hyeon (zxc2692@snu.ac.kr)
 
 ## Goals
